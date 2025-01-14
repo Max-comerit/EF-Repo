@@ -1,64 +1,21 @@
-﻿using System.Runtime.InteropServices;
-using EntityFrameworkDemo.Data;
-using EntityFrameworkDemo.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using EntityFrameworkDemo.Data;
+using EntityFrameworkDemo.Services;
 
-// var options = new DbContextOptionsBuilder<StudentDbContext>()
-// .UseSqlite("Data Source = StudentDb.db")
-// .Options; 
+Console.Clear();
+Console.WriteLine("Welcome to the App, what would you like to do?\n1: Access DB\n2: Exit application");
 
-var factory = new StudentContextFactory();
-using(var context = factory.CreateDbContext(args)){
+string response = Console.ReadLine();
+int selectedNumber = Convert.ToInt32(response);
 
-// if (!context.Students.Any()){
-//     context.Students.Add(new Student { Name = "Frank", Email = "Frank@gmail.com"});
-//     context.Students.Add(new Student { Name = "Max", Email = "Max@gmail.com"});
-//     context.SaveChanges();
-//     Console.WriteLine("Databasen är uppdaterad");
-// }
-
-
-
-if (!context.Schools.Any()){
-    Console.WriteLine ("Inga skolor registrerade, registrerar en första");
-    Console.WriteLine ("Ange skolans namn");
-    string newSchoolName = Console.ReadLine();
-    Console.WriteLine ("Ange skolans address");
-    string newSchoolAddress = Console.ReadLine();
-    context.Schools.Add(new School { Name = newSchoolName, Adress = newSchoolAddress});
-    context.SaveChanges();
-    Console.WriteLine ($"Skolan: {newSchoolName} med addressen {newSchoolAddress} har lagts till");
-} else {
-    Console.WriteLine ("Följande skolor finns registrerade:");
-    var schools = context.Schools.ToList();
-    schools.ForEach(s => Console.WriteLine($"Skolnamn: {s.Name}, och adressen är: {s.Adress}"));
-}
-
-if (!context.Students.Any()){
-    Console.WriteLine ("Inga elever registrerade");
-// } else {
-//     Console.WriteLine ("Hämtar elever från DB:n \n");
-//     var students = context.Students.ToList();
-//     students.ForEach(s => Console.WriteLine($"Student namn is: {s.Name}, and email is: {s.Email}"));
-// };
-
-// var specificSchool = context.Schools
-//                         .Where(s => s.Name == "Newton" && s.Adress == "Frihamnen");
-// var schoolNewton= specificSchool.FirstOrDefault();
-
-// var specificStudent = context.Students
-//                         .Where(s => s.Name == "Max");
-// var studentMax= specificStudent.FirstOrDefault();
-// studentMax.SchoolId = schoolNewton.Id;
-// context.SaveChanges();
-}
-
-var studentToRemove = context.Students.FirstOrDefault();
-context.Students.Remove(studentToRemove);
-context.SaveChanges();
-
-var updatedList = context.Students
-                        .Include(s => s.School)
-                        .ToList();
-updatedList.ForEach(s => Console.WriteLine($"Student namn is: {s.Name}, and email is: {s.Email}, and school: {s.School.Name}"));
+switch(selectedNumber) 
+{
+  case 1:
+DatabaseService.RunDbService();
+    break;
+  case 2:
+Console.WriteLine("Exiting application");
+    break;
+  default:
+Console.WriteLine("No valid input was given, application exits");
+    break;
 }

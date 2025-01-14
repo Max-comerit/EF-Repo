@@ -5,7 +5,7 @@
 namespace EntityFrameworkDemo.Migrations
 {
     /// <inheritdoc />
-    public partial class Addedschoolidtostudent : Migration
+    public partial class RemovedManyToManys : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
